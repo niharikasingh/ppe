@@ -60,19 +60,19 @@ function App() {
 
   return (
     <>
-      {/* TODO center the dots vertically*/}
-      <div style={{maxHeight: "98vh", width: "50%", display: "inline-block"}}>
-        {[...Array(50)].map((y, i) =>
-          <div style={{lineHeight: 0}}>
-            {[...Array(20)].map((x, j) => 
-              <Dot id={i*20 + j} color={dotColor(i*20 + j)} />
-            )}
-          </div>
-        )}
+      <div style={{height: "98vh", verticalAlign: "top", width: "50%", display: "inline-block"}}>
+        <div style={{height: "100%", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+          {[...Array(50)].map((y, i) =>
+            <div style={{lineHeight: 0}}>
+              {[...Array(20)].map((x, j) => 
+                <Dot id={i*20 + j} color={dotColor(i*20 + j)} />
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <div style={{height: "98vh", width: "50%", display: "inline-block", overflowY: "scroll"}}>
         <MantineProvider>
-          {/* TODO style the text properly: not centered, paragraph breaks */}
           <Text>
             Each dot <Dot color="darkgray"></Dot> is a thousand people.
           </Text>
@@ -92,59 +92,57 @@ function App() {
             <Checkbox
               checked={numFrontlineCovered >= 10}
               onChange={() => setNumFrontlinecovered(10)}
-              label="Only healthcare workers involved in the pandemic"
+              label={<Text style={{marginTop: "-3px", marginBottom: "5px"}}>Only healthcare workers involved in the pandemic</Text>}
             />
             <Checkbox
               checked={numFrontlineCovered >= 10 + 165}
               onChange={() => setNumFrontlinecovered(10 + 165)}
-              label="Other healthcare practitioners"
+              label={<Text style={{marginTop: "-3px", marginBottom: "5px"}}>Other healthcare practitioners</Text>}
             />
             <Checkbox
               checked={numFrontlineCovered >= 10 + 165 + 75}
               onChange={() => setNumFrontlinecovered(10 + 165 + 75)}
-              label="Healthcare support workers"
+              label={<Text style={{marginTop: "-3px", marginBottom: "5px"}}>Healthcare support workers</Text>}
             />
             <Checkbox
               checked={numFrontlineCovered >= 10 + 165 + 75 + 55}
               onChange={() => setNumFrontlinecovered(10 + 165 + 75 + 55)}
-              label="First responders"
+              label={<Text style={{marginTop: "-3px", marginBottom: "5px"}}>First responders</Text>}
             />
             <Checkbox
               checked={numFrontlineCovered >= 10 + 165 + 75 + 55 + 205}
               onChange={() => setNumFrontlinecovered(10 + 165 + 75 + 55 + 205)}
-              label="Food workers"
+              label={<Text style={{marginTop: "-3px", marginBottom: "5px"}}>Food workers</Text>}
             />
             <Checkbox
               checked={numFrontlineCovered >= 10 + 165 + 75 + 55 + 205 + 140}
               onChange={() => setNumFrontlinecovered(10 + 165 + 75 + 55 + 205 + 140)}
-              label="Transportation"
+              label={<Text style={{marginTop: "-3px", marginBottom: "5px"}}>Transportation</Text>}
             />
             <Checkbox
               checked={numFrontlineCovered >= 10 + 165 + 75 + 55 + 205 + 140 + 110}
               onChange={() => setNumFrontlinecovered(10 + 165 + 75 + 55 + 205 + 140 + 110)}
-              label="Manufacturing"
+              label={<Text style={{marginTop: "-3px", marginBottom: "5px"}}>Manufacturing</Text>}
             />
             <Checkbox
               checked={numFrontlineCovered >= 10 + 165 + 75 + 55 + 205 + 140 + 110 + 240}
               onChange={() => setNumFrontlinecovered(10 + 165 + 75 + 55 + 205 + 140 + 110 + 240)}
-              label="Others (cleaning, maintenance, repair, construction)"
+              label={<Text style={{marginTop: "-3px", marginBottom: "5px"}}>Others (cleaning, maintenance, repair, construction)</Text>}
             />
           </Text>
           <Text>
-            You need to cover <b>{numFrontlineCovered}</b> thousand workers. Let's choose some masks. Let's focus on the first 12 weeks of the pandemic. You will need {numMasksNeeded()} masks.
+            You need to cover <b>{numFrontlineCovered}</b> thousand workers. Let's choose some masks. Let's focus on the first 12 weeks of the pandemic. You will need {numMasksNeeded().toLocaleString()} masks.
           </Text>
           <Text>
-            <b>How many HCWs are covered?</b>&nbsp;
+            <b>How many workers are covered?</b>&nbsp;
             {/* TODO convert this to a percentage */}
-            {Math.round(numTypeAdjusted()/10000)/100}M masks are available, which is {checkNumType() ? "enough" : "not enough"}.
+            {numTypeAdjusted().toLocaleString()} masks are available, which is {checkNumType() ? "enough" : "not enough"}.
           </Text>
           <Text>
             <b>How much does this cost?</b>&nbsp;
-            {/* TODO add commas to $ number */}
-            This will cost ${0.02*numTypeSurg + 0.25*numTypeDisp + 32.5*numTypeElas + 1114.48*numTypePapr}.
+            This will cost {(0.02*numTypeSurg + 0.25*numTypeDisp + 32.5*numTypeElas + 1114.48*numTypePapr).toLocaleString("default", { style: "currency", currency: "USD" })}.
           </Text>
-          {/* TODO left align text for sliders*/}
-          <Text size="sm" mt="xl">Surgical masks</Text>
+          <Text mt="xl"><b>Surgical masks</b></Text>
           <Slider
             style={{width: '200px'}}
             min={0}
@@ -160,7 +158,7 @@ function App() {
           <Text>
             Moreover, these masks can only be used in proximity to a sick person for about an hour before the risk of catching the infection becomes high. 
           </Text>
-          <Text size="sm" mt="xl">Disposable N95 masks</Text>
+          <Text mt="xl"><b>Disposable N95 masks</b></Text>
           <Slider
             style={{width: '200px'}}
             min={0}
@@ -173,7 +171,7 @@ function App() {
           <Text>
             These masks offer better protection than surgical masks, but otherwise have similar drawbacks. They are about 10x the cost of surgical masks. 
           </Text>
-          <Text size="sm" mt="xl">Reusable elastomeric masks</Text>
+          <Text mt="xl"><b>Reusable elastomeric masks</b></Text>
           <Slider
             style={{width: '200px'}}
             min={0}
@@ -186,7 +184,7 @@ function App() {
           <Text>
             These masks offer extremely good protection. To be used correctly, their fit needs to be tested to make sure it forms a tight seal and their filter cartidges need to be replaced about once a week. They are about 100x the cost of N95 masks. 
           </Text>
-          <Text size="sm" mt="xl">Reusable PAPR masks</Text>
+          <Text mt="xl"><b>Reusable PAPR masks</b></Text>
           <Slider
             style={{width: '200px'}}
             min={0}
