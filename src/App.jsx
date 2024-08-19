@@ -23,8 +23,11 @@ function App() {
   const [numTypeDisp, setNumTypeDisp] = useState(0);
   const [numTypeElas, setNumTypeElas] = useState(0);
   const [numTypePapr, setNumTypePapr] = useState(0);
+  const [flexCapacity, setFlexCapacity] = useState(1);
   // number of covered people
   const [numFrontlineCovered, setNumFrontlinecovered] = useState(10);
+
+  const BASELINE_PRODUCTION = 160000;
 
   function numTypeAdjusted() {
     // convert all masks to disposable n95 masks
@@ -157,6 +160,8 @@ function App() {
           </Text>
           <Text>
             Moreover, these masks can only be used in proximity to a sick person for about an hour before the risk of catching the infection becomes high. 
+            TODO explain dot colors 
+            TODO add mask pictures 
           </Text>
           <Text mt="xl"><b>Disposable N95 masks</b></Text>
           <Slider
@@ -203,6 +208,33 @@ function App() {
           <Text>
             Also, the above exercise only focuses on 12 weeks of a pandemic. Real pandemics can last much longer. 
           </Text>
+          <Text mt="xl"><b>Stockpiling</b></Text>
+          <Text>
+            Broadly speaking, there are two ways to provide PPE to essential workers in the first weeks of a pandemic: stockpiling and flex capacity. 
+          </Text>
+          <Text>
+            Stockpiling means keeping extra PPE in storage, to be used in case a pandemic happens. 
+          </Text>
+          <Text>
+            Flex capacity means paying PPE producers to maintain the capability to increase their PPE production very quickly. In ordinary times, PPE producers can make {BASELINE_PRODUCTION.toLocaleString()} masks per day.  
+          </Text>
+          <Text>
+            Based on your current parameters, you will need {Math.round(numMasksNeeded() / (12*7)).toLocaleString()} masks every day. 
+          </Text>
+          <Text mt="xl"><b>How much flex capacity do you want PPE producers to maintain?</b></Text>
+          <Slider
+            style={{width: '200px'}}
+            min={1}
+            max={10}
+            label={(value) => `${value}x`}
+            value={flexCapacity} onChange={setFlexCapacity}
+            color="indigo"
+            size="sm"
+          />
+          <Text>
+            This will allow you to produce {(flexCapacity * BASELINE_PRODUCTION).toLocaleString()} masks using your flex capacity. Thus, you will need to stockpile {Math.max(Math.round((numMasksNeeded() / (12*7)) - (flexCapacity * BASELINE_PRODUCTION)), 0).toLocaleString()} masks.
+          </Text>
+          {/* TODO internal padding for text container */}
         </MantineProvider>
       </div>
     </>
