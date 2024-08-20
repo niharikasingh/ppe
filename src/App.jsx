@@ -3,6 +3,11 @@ import { MantineProvider } from '@mantine/core'
 import { Checkbox, Slider, Text } from '@mantine/core';
 import './App.css'
 import '@mantine/core/styles.css';
+import elastomericUrl from './assets/elastomeric.png';
+import n95Url from './assets/n95.jpeg';
+import paprUrl from './assets/papr.png';
+import surgicalUrl from './assets/surgical.png';
+
 
 function Dot(props) {
   const { id, color } = props;
@@ -14,8 +19,8 @@ function Dot(props) {
   )
 }
 
-// TODO page title
 // TODO deploy online -- need to split into tasks
+// TODO loom video and submit 
 
 function App() {
   // types of masks 
@@ -74,7 +79,7 @@ function App() {
           )}
         </div>
       </div>
-      <div style={{height: "98vh", width: "50%", display: "inline-block", overflowY: "scroll"}}>
+      <div style={{height: "98vh", width: "50%", display: "inline-block", overflowY: "scroll", padding: "0px 10px"}}>
         <MantineProvider>
           <Text>
             Each dot <Dot color="darkgray"></Dot> is a thousand people.
@@ -147,7 +152,7 @@ function App() {
           </Text>
           <Text mt="xl"><b>Surgical masks</b></Text>
           <Slider
-            style={{width: '200px'}}
+            style={{width: '200px', marginLeft: '20px'}}
             min={0}
             max={MAX_MASKS}
             label={(value) => value ? `${Math.round(value/10000)/100}M` : "0"}
@@ -155,17 +160,17 @@ function App() {
             color="indigo"
             size="sm"
           />
+          <img src={surgicalUrl} style={{width: "200px", float: "left"}} />
           <Text>
             Surgical masks are extremely cheap. However, they require a lot of space to stockpile in advance. They will need to be stockpiled in very large warehouses, and then after a pandemic hits, distributed to areas of need. This will be a logistically challenging operation. 
           </Text>
           <Text>
             Moreover, these masks can only be used in proximity to a sick person for about an hour before the risk of catching the infection becomes high. 
             TODO explain dot colors 
-            TODO add mask pictures 
           </Text>
           <Text mt="xl"><b>Disposable N95 masks</b></Text>
           <Slider
-            style={{width: '200px'}}
+            style={{width: '200px', marginLeft: '20px'}}
             min={0}
             max={MAX_MASKS}
             label={(value) => value ? `${Math.round(value/10000)/100}M` : "0"}
@@ -173,12 +178,14 @@ function App() {
             color="indigo"
             size="sm"
           />
+          <img src={n95Url} style={{width: "200px", float: "left"}} />
           <Text>
             These masks offer better protection than surgical masks, but otherwise have similar drawbacks. They are about 10x the cost of surgical masks. 
           </Text>
+          <br/><br/>
           <Text mt="xl"><b>Reusable elastomeric masks</b></Text>
           <Slider
-            style={{width: '200px'}}
+            style={{width: '200px', marginLeft: '20px'}}
             min={0}
             max={MAX_MASKS / 600}
             label={(value) => value ? `${Math.round(value/10)/100}k` : "0"}
@@ -186,12 +193,13 @@ function App() {
             color="indigo"
             size="sm"
           />
+          <img src={elastomericUrl} style={{width: "200px", float: "left"}} />
           <Text>
             These masks offer extremely good protection. To be used correctly, their fit needs to be tested to make sure it forms a tight seal and their filter cartidges need to be replaced about once a week. They are about 100x the cost of N95 masks. 
           </Text>
           <Text mt="xl"><b>Reusable PAPR masks</b></Text>
           <Slider
-            style={{width: '200px'}}
+            style={{width: '200px', marginLeft: '20px'}}
             min={0}
             max={MAX_MASKS / 2400}
             label={(value) => value ? `${Math.round(value/10)/100}k` : "0"}
@@ -199,6 +207,7 @@ function App() {
             color="indigo"
             size="sm"
           />
+          <img src={paprUrl} style={{width: "200px", float: "left"}} />
           <Text>
             These masks offer extremely good protection. They also don't require fit testing to be used correctly. They can be used by people who cannot wear other kinds of masks due to head coverings. They take a long time to put on, and require assistance from others during the donning and doffing process. They are about 35X the cost of elastomeric masks. 
           </Text>
@@ -223,7 +232,7 @@ function App() {
           </Text>
           <Text mt="xl"><b>How much flex capacity do you want PPE producers to maintain?</b></Text>
           <Slider
-            style={{width: '200px'}}
+            style={{width: '200px', marginLeft: '20px'}}
             min={1}
             max={10}
             label={(value) => `${value}x`}
@@ -234,7 +243,14 @@ function App() {
           <Text>
             This will allow you to produce {(flexCapacity * BASELINE_PRODUCTION).toLocaleString()} masks using your flex capacity. Thus, you will need to stockpile {Math.max(Math.round((numMasksNeeded() / (12*7)) - (flexCapacity * BASELINE_PRODUCTION)), 0).toLocaleString()} masks.
           </Text>
-          {/* TODO internal padding for text container */}
+          <Text mt="xl"><b>Sources</b></Text>
+          <Text>
+            <ul>
+              <li><a href="https://blueprintbiosecurity.org/u/2024/05/Towards-a-Theory-of-Pandemic-Proof-PPE-Blueprint.pdf" target="_blank">Towards a Theory of Pandemic-Proof PPE by Blueprint Biosecurity</a></li>
+              <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2727308/" target="_blank">Radonovich LJ, Magalian PD, Hollingsworth MK, Baracco G. Stockpiling supplies for the next influenza pandemic. Emerg Infect Dis. 2009 Jun;15(6):e1. doi: 10.3201/eid1506.081196. PMID: 21970033; PMCID: PMC2727308.</a></li>
+              <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8264166/" target="_blank">Blau FD, Koebe J, Meyerhofer PA. Who are the essential and frontline workers? Bus Econ. 2021;56(3):168-178. doi: 10.1057/s11369-021-00230-7. Epub 2021 Jul 8. PMID: 34253931; PMCID: PMC8264166.</a></li>
+            </ul>
+          </Text>
         </MantineProvider>
       </div>
     </>
