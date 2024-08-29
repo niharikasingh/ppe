@@ -19,7 +19,6 @@ function Dot(props) {
   )
 }
 
-// TODO deploy online -- need to split into tasks
 // TODO loom video and submit 
 
 function App() {
@@ -100,8 +99,10 @@ function App() {
       </div>
       <div style={{height: "98vh", width: "50%", display: "inline-block", overflowY: "scroll", padding: "0px 10px"}}>
         <MantineProvider>
+          <h2>PPE Explainer</h2>
+          <h5>Written by Neha Singh in August 2024</h5>
           <Text>
-            If another pandemic like Covid-19 happens, we will need to use many strategies to fight it. Some of these strategies will depend on the exact kind of pandemic it is. For example, vaccines will need to be developed to specifically target the pathogen. Medicines and medical protocols will also need to be tailored to the symptoms and severity of the symptoms the pathogen causes.  
+            If another pandemic like Covid-19 happens, we will need to use many strategies to fight it. Some of these strategies will depend on the exact kind of pandemic it is. For example, vaccines will need to be developed to specifically target the pathogen. Medicines and medical protocols will also need to be tailored to the symptoms the pathogen causes.  
           </Text>
           <Text>
             However, there is one strategy for fighting pandemics that doesn't depend on the details of the pandemic: personal protective equipment, or PPE. PPE includes items like gloves, masks, eyewear, face shields, and gowns. All these items have one function: to keep pathogens away from their wearer. PPE forms a physical barrier that stops pathogens from coming into contact with people, and thus stops people from getting infected. 
@@ -113,10 +114,10 @@ function App() {
             Let's consider how PPE could be used in case of a potential future pandemic. In a pandemic, the first order of business will be to keep society running until we find a cure for the pandemic. This means essential workers will need to keep working. They will only do this if they feel safe that they won't get infected while working, which is where PPE can help. 
           </Text>
           <Text>
-            We will focus on the trickiest type of PPE: masks. Masks are tricky because they only work well when they fit their wearer's face extremely well, as opposed to gowns or gloves which have more of a margin of error. Masks are also tricky because they can't be made of a complete barrier, like rubber gloves or plastic face shields. Instead, they need to allow air through while filtering out pathogens. 
+            We will focus on the trickiest type of PPE: masks. Masks are tricky because they only work well when they fit their wearer's face extremely well, as opposed to gowns or gloves which have more of a margin of error. Masks are also tricky because they can't be made of a complete barrier, like rubber gloves or plastic face shields. Instead, they need to allow air through while filtering out pathogens. If we face difficulties manufacturing or procuring PPE, they'll likely show up in masks.
           </Text>
           <Text>
-            The dots represent the roughly 55 million frontline essential workers the US has. Each dot <Dot color="darkgray"></Dot> is 55 thousand people. These are people who need to go to their jobs in person every day to keep our society running. 
+            The dots on the left represent the roughly 55 million frontline essential workers the US has. Each dot <Dot color="darkgray"></Dot> is 55 thousand people. These are people who need to go to their jobs in person every day to keep our society running. 
           </Text>
           <Text>
             Assume that it is your job to distribute PPE to people. Which frontline essential workers will you provide PPE to?
@@ -167,17 +168,16 @@ function App() {
             You need to cover <b>{(numFrontlineCovered * 55000).toLocaleString()}</b> workers. Let's focus on the first 12 weeks of the pandemic. 
           </Text>
           <Text>
-            Let's use a unit called <b>mask-days</b>. If you give a worker a disposable mask, they will need a new mask every day. If you give a worker a reusable mask, they can use that same mask for many weeks. In any case, regardless of the actual number of masks used, the worker will need to be covered for 84 mask-days (1 person needing coverage * 12 weeks * 7 days). 
+            Let's use a unit called <b>mask-days</b>. If you give a worker a disposable mask, they will need a new mask every day. If you give a worker a reusable mask, they can use that same mask for many weeks. In any case, regardless of the actual number of masks used, the worker will need to be covered for 84 mask-days (1 person needing coverage * 12 weeks * 7 days). A reusable mask provides protection for more mask-days than a disposable mask. 
           </Text>
           <Text>
-            Given your selections above, you need to cover people for <b>{numMasksNeeded().toLocaleString()}</b> mask-days. 
-          </Text>
-          <Text>
-            <b>How many workers are covered?</b>&nbsp;
-            {numTypeAdjusted().toLocaleString()} masks-days are available, which is {Math.round(numTypeAdjusted()*100/numMasksNeeded()).toLocaleString()}% of mask-days required, which is <b>{checkNumType() ? <span style={{color: "green"}}>enough</span> : <span style={{color: "red"}}>not enough</span>}</b>.
+            Given your selections above, you need to cover people for <b>{numMasksNeeded().toLocaleString()}</b> mask-days. You can select different types of masks below to cover these people. 
           </Text>
           <div>
             <Text style={{position: "sticky", top: 0, backgroundColor: "rgb(215, 246, 215)", zIndex: 999}}>
+              <b>How many workers are covered?</b>&nbsp;
+              {numTypeAdjusted().toLocaleString()} masks-days are available, which is {Math.round(numTypeAdjusted()*100/numMasksNeeded()).toLocaleString()}% of mask-days required, which is <b>{checkNumType() ? <span style={{color: "green"}}>enough</span> : <span style={{color: "red"}}>not enough</span>}</b>.
+              <br />
               <b>How much does this cost?</b>&nbsp;
               This will cost ${Math.round((0.02*numTypeSurg + 0.25*numTypeDisp + 32.5*numTypeElas + 1114.48*numTypePapr)/1000000).toLocaleString()}M, which is {Math.round((0.02*numTypeSurg + 0.25*numTypeDisp + 32.5*numTypeElas + 1114.48*numTypePapr) * 100 / 325000000000)}% of the amount the US spends on fire and firefighting (~$325B).
             </Text>
@@ -193,10 +193,10 @@ function App() {
             />
             <img src={surgicalUrl} style={{width: "200px", float: "left"}} />
             <Text>
-              Surgical masks are extremely cheap. However, they require a lot of space to stockpile in advance. They will need to be stockpiled in very large warehouses, and then after a pandemic hits, distributed to areas of need. This will be a logistically challenging operation. 
+              Surgical masks are extremely cheap. However, they require a lot of space to stockpile in advance. If a pandemic hits, they will need to be distributed to areas of need; this will be a logistically challenging operation. 
             </Text>
             <Text>
-              Moreover, these masks can only be used in proximity to a sick person for about an hour before the risk of catching the infection becomes high. Because these masks will not fully protect workers, they are shown in <span style={{color: "goldenrod"}}><b>yellow</b></span>. All the below masks, which protect workers much better are shown in <span style={{color: "green"}}><b>green</b></span>.
+              Moreover, these masks can only be used in proximity to a sick person for about an hour before the risk of catching the infection becomes unacceptably high. Because these masks will not fully protect workers, they are shown in <span style={{color: "goldenrod"}}><b>yellow</b></span>. All the below masks, which protect workers much better are shown in <span style={{color: "green"}}><b>green</b></span>.
             </Text>
             <Text mt="xl"><b>Disposable N95 masks</b></Text>
             <Slider
@@ -210,7 +210,7 @@ function App() {
             />
             <img src={n95Url} style={{width: "200px", float: "left"}} />
             <Text>
-              These masks offer better protection than surgical masks, but otherwise have similar drawbacks. They are about 10x the cost of surgical masks.  
+              These masks offer better protection than surgical masks. However, they have similar drawbacks when it comes to stockpiling. They are about 10x the cost of surgical masks.  
             </Text>
             <Text>
               In a stortage, these masks can be reworn, but their effectiveness drops as they are reworn over and over. 
@@ -230,6 +230,7 @@ function App() {
             <Text>
               These masks offer extremely good protection. To be used correctly, their fit needs to be tested to make sure it forms a tight seal and their filter cartidges need to be replaced about once every few months. They are about 100x the cost of N95 masks. 
             </Text>
+            <br/>
             <Text mt="xl"><b>Reusable PAPR masks</b></Text>
             <Slider
               style={{width: '200px', marginLeft: '20px'}}
@@ -242,7 +243,7 @@ function App() {
             />
             <img src={paprUrl} style={{width: "200px", float: "left"}} />
             <Text>
-              These masks offer extremely good protection. They also don't require fit testing to be used correctly. They can be used by people who cannot wear other kinds of masks due to head coverings. They take a long time to put on, and require assistance from others during the donning and doffing process. They are about 35X the cost of elastomeric masks.  
+              These masks offer extremely good protection. They also don't require fit testing to be used correctly. They can be used by people who cannot wear other kinds of masks due to head coverings. They take a long time to put on, and require assistance from others during the donning and doffing process. They are about 35x the cost of elastomeric masks.  
             </Text>
             <Text>
               These masks can be shared among multiple users. For example, they could be used by people in the morning shift, disinfected, and then reused by people in the evening shift. 
@@ -256,10 +257,10 @@ function App() {
             Broadly speaking, there are two ways to provide PPE to essential workers in the first weeks of a pandemic: stockpiling and flex capacity. 
           </Text>
           <Text>
-            Stockpiling means keeping extra PPE in storage, to be used in case a pandemic happens. 
+            Stockpiling means keeping extra PPE in warehouses, to be used in case a pandemic happens. 
           </Text>
           <Text>
-            Flex capacity means paying PPE producers to maintain the capability to increase their PPE production very quickly. In ordinary times, PPE producers can produce around {BASELINE_PRODUCTION.toLocaleString()} mask-days of protection per day. In an emergency situation, PPE producers could run their factories 24/7 and increase other efficiencies to produce 3-4x as many masks. In extremely dire situations with a lot of optimization, they might be able to increase that to 10x, and maybe even more.  
+            Flex capacity means paying PPE producers to maintain the capability to increase their PPE production very quickly. In ordinary times, PPE producers can produce around {BASELINE_PRODUCTION.toLocaleString()} mask-days of protection per day. In an emergency situation, PPE producers could run their factories 24/7 and increase other efficiencies to produce 3-4x as many masks. In extreme situations where they do a lot of optimization, they might be able to increase that to 10x, and maybe even more.  
           </Text>
           <Text>
             To reiterate, based on your current parameters, you will need {numMasksNeeded().toLocaleString()} mask-days. 
